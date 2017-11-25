@@ -109,14 +109,14 @@ def main():
 
     # create the hero character
     # We treat the hero differently than all the other sprite characters as it doesn't move
-    hero = load_piskell_sprite("./Catto",2)
+    hero = load_piskell_sprite("Catto",2)
     hero_rect = hero[0].get_rect()
     # Place the hero at the center of the screen
     hero_rect.center = (width/2, height/2)
 
     # Put all the characters in a dictionary so we can pass to functions easily
     character_data = {}
-    # add in a king
+    # add in a ghost character
     king_image = pygame.image.load("king/sprite_king0.png").convert_alpha()
     king_rect = king_image.get_rect()
     king_pos = (1700,1200)
@@ -126,7 +126,7 @@ def main():
     # frustrated having to put quotes around the words. So the variables act as the word and the
     # value in the variable acts as the key.
     king = {IMAGE:king_image, RECT:king_rect, POSITION:king_pos, VISIBLE:True, PHRASE:"NOooooo!"}
-    # Add the king list to the character dictionary.    
+    # Add the ghost list to the character dictionary.    
     character_data["king"] = king
 
     # add in a treasure item
@@ -149,11 +149,11 @@ def main():
     # variable to show which way I am moving
     is_facing_right = True # False means left
 
-    # capture king variable
+    # capture ghost variable
     game_state = {}
     
     # Need to set all state variables here so that they are in the dictionary
-    game_state["got king"] = False
+    game_state["got ghost"] = False
 
     # Load the minimap that defines the world.
     world = pygame.image.load("images/testMap2.png").convert_alpha()
@@ -214,17 +214,17 @@ def main():
 
         # Draw items. They move with the map.
 
-        # The king moves across the map by adding 1 to the x coordinate. Since POSITION is a tuple, we
+        # The ghost moves across the map by adding 1 to the x coordinate. Since POSITION is a tuple, we
         # cannot modify just the x coordinate, we need to rebuild the tuple.
         character_data["king"][POSITION] = (character_data["king"][POSITION][0] + 1, character_data["king"][POSITION][1])
-        # The king rectangle has to be shifted from the big map to the screen by offsetting by the screen corner.
-        # This shifted rectangle is also how the hero might interact with the king since we care about
+        # The ghost rectangle has to be shifted from the big map to the screen by offsetting by the screen corner.
+        # This shifted rectangle is also how the hero might interact with the ghost since we care about
         # where they are on screen relative to each other.
         character_data["king"][RECT].center = (character_data["king"][POSITION][0] - screen_x, character_data["king"][POSITION][1] - screen_y)
         if character_data["king"][VISIBLE]:
             screen.blit(character_data["king"][IMAGE], character_data["king"][RECT])
 
-        # interact with king
+        # interact with ghost
         if character_data["king"][VISIBLE] and hero_rect.colliderect(character_data["king"][RECT]):
             character_data["king"][VISIBLE] = False;
             say_phrases.append((character_data["king"][PHRASE], frame_count + 150))
