@@ -6,7 +6,7 @@ import sys, pygame, math
 
 # Define some words to act as a key into a dictionary of character-related data. I could
 # use "image" as a key, but sometimes it is nice to avoid "".
-CASTLE = 0
+IM = 0
 RECT = 1
 POSITION = 2
 VISIBLE = 3
@@ -28,30 +28,33 @@ def load_piskell_sprite(sprite_folder_name, number_of_frames):
 # preset. A more general function would take a list of color, filename tuples and
 # make the dictionary, but then calling the function would be as long as this function.
 def load_tiles_and_make_dict_and_rect():
-    # Load the tiles
-    BOTTOM_LEFT_CORNER = pygame.image.load("CASTLE.BOTTOM_LEFT_CORNER.png").convert_alpha() # (206, 206, 46, 255)
+    # Load the tiles? maybe? dont touch T_T yet
+    BOTTOM_LEFT_CORNER = pygame.image.load("images/BOTTOM_LEFT_CORNER.png").convert_alpha()
     tile_rect = sand.get_rect()
-    BOTTOM_STRAIGHT_CORNER = pygame.image.load("CASTLE.BOTTOM_RIGHT_CORNER.png").convert_alpha() # (126, 206, 46, 255)
-    BOTTOM_STRAIGHT = pygame.image.load("CASTLE.BOTTOM_STRAIGHT.png").convert_alpha() # (14,64,14,255)
-    CENTER = pygame.image.load("CASTLE.CENTER.png").convert_alpha() # (117,94,21,255)
-    LEFT_DOOR = pygame.image.load("CASTLE.LEFT_DOOR.png").convert_alpha() # (0, 176, 255, 255)
-    LEFT_STRAIGHT = pygame.image.load("CASTLE.LEFT_STRAIGHT.png").convert_alpha()# (39, 39, 21, 255)
-    RIGHT_DOOR = pygame.image.load("CASTLE.RIGHT_DOOR.png").convert_alpha()
-    RIGHT_STRAIGHT = pygame.image.load("CASTLE.RIGHT_STRAIGHT.png").convert_alpha()
-    RIGHT_WINDOW_CLOSE = pygame.image.load("CASTLE.RIGHT_WINDOW_CLOSE.png").convert_alpha()
-    RIGHT_WINDOW_OPEN = pygame.image.load("CASTLE.RIGHT_WINDOW_OPEN.png").convert_alpha()
-    TOP_LEFT_CORNER = pygame.image.load("CASTLE.TOP_LEFT_CORNER.png").convert_alpha()
-    TOP_RIGHT_CORNER = pygame.image.load("CASTLE.TOP_RIGHT_CORNER.png").convert_alpha()
-    TOP_STRAIGHT = pygame.image.load("CASTLE.TOP_STRAIGHT.png").convert_alpha()
+    BOTTOM_STRAIGHT_CORNER = pygame.image.load("images/BOTTOM_RIGHT_CORNER.png").convert_alpha()
+    BOTTOM_STRAIGHT = pygame.image.load("images/BOTTOM_STRAIGHT.png").convert_alpha()
+    CENTER = pygame.image.load("images/CENTER.png").convert_alpha()
+    LEFT_DOOR = pygame.image.load("images/LEFT_DOOR.png").convert_alpha()
+    LEFT_STRAIGHT = pygame.image.load("images/LEFT_STRAIGHT.png").convert_alpha()
+    RIGHT_DOOR = pygame.image.load("images/RIGHT_DOOR.png").convert_alpha()
+    RIGHT_STRAIGHT = pygame.image.load("images/RIGHT_STRAIGHT.png").convert_alpha()
+    RIGHT_WINDOW_CLOSE = pygame.image.load("images/RIGHT_WINDOW_CLOSE.png").convert_alpha()
+    RIGHT_WINDOW_OPEN = pygame.image.load("images/RIGHT_WINDOW_OPEN.png").convert_alpha()
+    TOP_LEFT_CORNER = pygame.image.load("images/TOP_LEFT_CORNER.png").convert_alpha()
+    TOP_RIGHT_CORNER = pygame.image.load("images/TOP_RIGHT_CORNER.png").convert_alpha()
+    TOP_STRAIGHT = pygame.image.load("images/TOP_STRAIGHT.png").convert_alpha()
+    DARK_GRASS = pygame.image.load("images/DARK_GRASS.png").convert_alpha()
+    LIGHT_GRASS = pygame.image.load("images/LIGHT_GRASS.png").convert_alpha()
 
-    # Make a dictionary of the tiles for easy access
+    # WORKING ON the dictionaries or just using them, still a work in process but ill figure this out.
+    # maybe i might just say fuck dictionaries and theyre waste of air.
     tiles = {}
-    tiles[(206, 206, 46, 255)] = sand
-    tiles[(126, 206, 46, 255)] = plains
-    tiles[(39, 39, 21, 255)] = rocks
-    tiles[(0, 176, 255, 255)] = water
-    tiles[(117,94,21,255)] = dirt
-    tiles[(14,64,14,255)] = swamp
+    tiles[(206, 206, 46, 255)] = BOTTOM_LEFT_CORNER
+    tiles[(126, 206, 46, 255)] = BOTTOM_STRAIGHT_CORNER
+    tiles[(39, 39, 21, 255)] = BOTTOM_STRAIGHT
+    tiles[(0, 176, 255, 255)] = CENTER
+    tiles[(117,94,21,255)] = LEFT_DOOR
+    tiles[(14,64,14,255)] = LEFT_STRAIGHT
 
     return (tiles, tile_rect)
 
@@ -109,7 +112,7 @@ def main():
 
     # create the hero character
     # We treat the hero differently than all the other sprite characters as it doesn't move
-    hero = load_piskell_sprite("./Catto",2)
+    hero = load_piskell_sprite("images/Catto",2)
     hero_rect = hero[0].get_rect()
     # Place the hero at the center of the screen
     hero_rect.center = (width/2, height/2)
@@ -117,7 +120,7 @@ def main():
     # Put all the characters in a dictionary so we can pass to functions easily
     character_data = {}
     # add in a king
-    king_image = pygame.image.load("king/sprite_king0.png").convert_alpha()
+    king_image = pygame.image.load("images/sprite_king0.png").convert_alpha()
     king_rect = king_image.get_rect()
     king_pos = (1700,1200)
     # This is our standard character data - it is a dictionary of
@@ -130,7 +133,7 @@ def main():
     character_data["king"] = king
 
     # add in a treasure item
-    rope_image = pygame.image.load("merchant/sprite_merchant0.png").convert_alpha()
+    rope_image = pygame.image.load("images/sprite_merchant0.png").convert_alpha()
     # Note that we can add characters to the character dictionary without making a lot of variables
     character_data["rope"] = {IMAGE:rope_image, RECT:rope_image.get_rect(), POSITION:(1000, 500), VISIBLE:False, PHRASE:"Use this rope wisely!"}
 
