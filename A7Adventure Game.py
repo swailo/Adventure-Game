@@ -117,22 +117,22 @@ def main():
     # Put all the characters in a dictionary so we can pass to functions easily
     character_data = {}
     # add in a ghost character
-    ghost_image = pygame.image.load("king/sprite_king0.png").convert_alpha()
-    ghost_rect = ghost_image.get_rect()
-    ghost_pos = (1700,1200)
+    king_image = pygame.image.load("king/sprite_king0.png").convert_alpha()
+    king_rect = king_image.get_rect()
+    king_pos = (1700,1200)
     # This is our standard character data - it is a dictionary of
     # an {IMAGE, RECT, POSITION, VISIBLE, optional PHRASE}. The ALL CAPS keys are defined at
     # the top of this file. They are really numbers. Words make more sense to read but I get
     # frustrated having to put quotes around the words. So the variables act as the word and the
     # value in the variable acts as the key.
-    ghost = {IMAGE:ghost_image, RECT:ghost_rect, POSITION:ghost_pos, VISIBLE:True, PHRASE:"NOooooo!"}
+    king = {IMAGE:king_image, RECT:king_rect, POSITION:king_pos, VISIBLE:True, PHRASE:"NOooooo!"}
     # Add the ghost list to the character dictionary.    
-    character_data["ghost"] = ghost
+    character_data["king"] = king
 
     # add in a treasure item
-    treasure_image = pygame.image.load("merchant/sprite_merchant0.png").convert_alpha()
+    rope_image = pygame.image.load("merchant/sprite_merchant0.png").convert_alpha()
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["treasure"] = {IMAGE:treasure_image, RECT:treasure_image.get_rect(), POSITION:(1000, 500), VISIBLE:False, PHRASE:"Spend your coin wisely!"}
+    character_data["rope"] = {IMAGE:rope_image, RECT:rope_image.get_rect(), POSITION:(1000, 500), VISIBLE:False, PHRASE:"Use this rope wisely!"}
 
     # Add a place to hold screen phrases
     say_phrases = []
