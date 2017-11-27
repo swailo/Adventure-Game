@@ -43,11 +43,12 @@ def load_tiles_and_make_dict_and_rect():
     RIGHT_DOOR = pygame.image.load("images/RIGHT_DOOR.png").convert_alpha() # (117,94,21,255)
     LEFT_DOOR = pygame.image.load("images/LEFT_DOOR.png").convert_alpha() # (117,94,21,255)
     DARK_GRASS = pygame.image.load("images/DARK_GRASS.png").convert_alpha() # (0, 176, 255, 255)
+    LIGHT_GRASS = pygame.image.load("images/LIGHT_GRASS.png").convert_alpha() # (0, 176, 255, 255)
     RIGHT_WINDOW_CLOSED = pygame.image.load("images/RIGHT_WINDOW_CLOSED.png").convert_alpha() # (39, 39, 21, 255)
     LEFT_WINDOW_CLOSED = pygame.image.load("images/LEFT_WINDOW_CLOSED.png").convert_alpha() # (39, 39, 21, 255)
     RIGHT_WINDOW_OPEN = pygame.image.load("images/RIGHT_WINDOW_OPEN.png").convert_alpha() # (39, 39, 21, 255)
     LEFT_WINDOW_OPEN = pygame.image.load("images/LEFT_WINDOW_OPEN.png").convert_alpha() # (39, 39, 21, 255)
-    
+    WATER = pygame.image.load("images/WATER.png").convert_alpha() # (39, 39, 21, 255)
 
     # The previous entries are associated with the minmap that came with this file. When you make ur
     # own minimap you have to reassign these colors.
@@ -62,7 +63,7 @@ def load_tiles_and_make_dict_and_rect():
     tiles[(148, 102, 23, 255)] = LEFT_DOOR
     tiles[(22, 90, 17, 255)] = DARK_GRASS
     tiles[(11, 113, 3, 255)] = LIGHT_GRASS
-    
+    tiles[(153, 217, 334, 255)] = WATER
     tiles[(103, 85, 55, 255)] = RIGHT_WINDOW_CLOSED
     tiles[(65, 45, 11, 255)] = LEFT_WINDOW_CLOSED
     tiles[(103, 85, 55, 255)] = RIGHT_WINDOW_OPEN
