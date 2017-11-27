@@ -51,12 +51,13 @@ def load_tiles_and_make_dict_and_rect():
 
     # Make a dictionary of the tiles for easy access
     tiles = {}
-    tiles[(206, 206, 46, 255)] = DARK_WALL
-    tiles[(126, 206, 46, 255)] = LIGHT_WALL
-    tiles[(39, 39, 21, 255)] = CARPET
-    tiles[(0, 176, 255, 255)] = DOOR
-    tiles[(117,94,21,255)] = DARK_GRASS
-    tiles[(14,64,14,255)] = LIGHT_GRASS
+    tiles[(93, 93, 93, 255)] = DARK_WALL
+    tiles[(159, 157, 157, 255)] = LIGHT_WALL
+    tiles[(25, 44, 155, 255)] = CARPET
+    tiles[(125, 79, 0, 255)] = RIGHT_DOOR
+    tiles[(148, 102, 23, 255)] = LEFT_DOOR
+    tiles[(22, 90, 17, 255)] = DARK_GRASS
+    tiles[(11, 113, 3, 255)] = LIGHT_GRASS
 
     return (tiles, tile_rect)
 
