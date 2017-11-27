@@ -6,11 +6,12 @@ import sys, pygame, math
 
 # Define some words to act as a key into a dictionary of character-related data. I could
 # use "image" as a key, but sometimes it is nice to avoid "".
-IM = 0
+IMAGE = 0
 RECT = 1
 POSITION = 2
 VISIBLE = 3
 PHRASE = 4
+
 
 # This function loads a series of sprite images stored in a folder with a
 # consistent naming pattern: sprite_# or sprite_##. It returns a list of the images.
@@ -23,6 +24,7 @@ def load_piskell_sprite(sprite_folder_name, number_of_frames):
                              
     return frame_counts
 
+
 # This loads known images that correspond to tile types. It then puts those tiles
 # in a dictionary with the minimap pixel color as a key - those key colors are also
 # preset. A more general function would take a list of color, filename tuples and
@@ -30,7 +32,7 @@ def load_piskell_sprite(sprite_folder_name, number_of_frames):
 def load_tiles_and_make_dict_and_rect():
     # Load the tiles? maybe? dont touch T_T yet
     BOTTOM_LEFT_CORNER = pygame.image.load("images/BOTTOM_LEFT_CORNER.png").convert_alpha()
-    tile_rect = sand.get_rect()
+    tile_rect = BOTTOM_LEFT_CORNER.get_rect()
     BOTTOM_STRAIGHT_CORNER = pygame.image.load("images/BOTTOM_RIGHT_CORNER.png").convert_alpha()
     BOTTOM_STRAIGHT = pygame.image.load("images/BOTTOM_STRAIGHT.png").convert_alpha()
     CENTER = pygame.image.load("images/CENTER.png").convert_alpha()
@@ -47,14 +49,20 @@ def load_tiles_and_make_dict_and_rect():
     LIGHT_GRASS = pygame.image.load("images/LIGHT_GRASS.png").convert_alpha()
 
     # WORKING ON the dictionaries or just using them, still a work in process but ill figure this out.
-    # maybe i might just say fuck dictionaries and theyre waste of air.
+    # maybe i might just say fuck dictionaries and they're waste of air.
     tiles = {}
-    tiles[(206, 206, 46, 255)] = BOTTOM_LEFT_CORNER
-    tiles[(126, 206, 46, 255)] = BOTTOM_STRAIGHT_CORNER
-    tiles[(39, 39, 21, 255)] = BOTTOM_STRAIGHT
-    tiles[(0, 176, 255, 255)] = CENTER
-    tiles[(117,94,21,255)] = LEFT_DOOR
-    tiles[(14,64,14,255)] = LEFT_STRAIGHT
+##    tiles[(206, 206, 46, 255)] = BOTTOM_LEFT_CORNER
+##    tiles[(126, 206, 46, 255)] = BOTTOM_STRAIGHT_CORNER
+##    tiles[(39, 39, 21, 255)] = BOTTOM_STRAIGHT
+##    tiles[(0, 176, 255, 255)] = CENTER
+##    tiles[(117,94,21,255)] = LEFT_DOOR
+##    tiles[(14,64,14,255)] = LEFT_STRAIGHT
+    
+    tiles[(255,255,255,255)] = CENTER
+    tiles[(11, 13, 3, 255)] = BOTTOM_STRAIGHT
+    tiles[(22, 90, 17, 255)] = BOTTOM_LEFT_CORNER
+
+    
 
     return (tiles, tile_rect)
 
