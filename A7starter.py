@@ -36,13 +36,13 @@ def load_piskell_sprite(sprite_folder_name, number_of_frames):
 # somthin, idk.
 def load_tiles_and_make_dict_and_rect():
     # Load the tiles
-    BOTTOM_LEFT_CORNER = pygame.image.load("images/BOTTOM_LEFT_CORNER.png").convert_alpha() # (206, 206, 46, 255)
-    tile_rect = BOTTOM_LEFT_CORNER.get_rect()
-    BOTTOM_RIGHT_CORNER = pygame.image.load("images/BOTTOM_RIGHT_CORNER.png").convert_alpha() # (126, 206, 46, 255)
-    BOTTOM_STRAIGHT = pygame.image.load("images/BOTTOM_STRAIGHT.png").convert_alpha() # (14,64,14,255)
-    CENTER = pygame.image.load("images/CENTER.png").convert_alpha() # (117,94,21,255)
+    DARK_WALL = pygame.image.load("images/DARK_WALL.png").convert_alpha() # (206, 206, 46, 255)
+    tile_rect = DARK_WALL.get_rect()
+    LIGHT_WALL = pygame.image.load("images/LIGHT_WALL.png").convert_alpha() # (126, 206, 46, 255)
+    CARPET = pygame.image.load("images/CARPET.png").convert_alpha() # (14,64,14,255)
+    DOOR = pygame.image.load("images/DOOR.png").convert_alpha() # (117,94,21,255)
     DARK_GRASS = pygame.image.load("images/DARK_GRASS.png").convert_alpha() # (0, 176, 255, 255)
-    LEFT_DOOR = pygame.image.load("images/LEFT_DOOR.png").convert_alpha() # (39, 39, 21, 255)
+    LIGHT_GRASS = pygame.image.load("images/LIGHT_GRASS.png").convert_alpha() # (39, 39, 21, 255)
 
     # The previous entries are associated with the minmap that came with this file. When you make ur
     # own minimap you have to reassign these colors.
@@ -50,12 +50,12 @@ def load_tiles_and_make_dict_and_rect():
 
     # Make a dictionary of the tiles for easy access
     tiles = {}
-    tiles[(206, 206, 46, 255)] = BOTTOM_LEFT_CORNER
-    tiles[(126, 206, 46, 255)] = BOTTOM_RIGHT_CORNER
-    tiles[(39, 39, 21, 255)] = LEFT_DOOR
-    tiles[(0, 176, 255, 255)] = DARK_GRASS
-    tiles[(117,94,21,255)] = CENTER
-    tiles[(14,64,14,255)] = BOTTOM_STRAIGHT
+    tiles[(206, 206, 46, 255)] = DARK_WALL
+    tiles[(126, 206, 46, 255)] = LIGHT_WALL
+    tiles[(39, 39, 21, 255)] = CARPET
+    tiles[(0, 176, 255, 255)] = DOOR
+    tiles[(117,94,21,255)] = DARK_GRASS
+    tiles[(14,64,14,255)] = LIGHT_GRASS
 
     return (tiles, tile_rect)
 
