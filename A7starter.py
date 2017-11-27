@@ -40,7 +40,8 @@ def load_tiles_and_make_dict_and_rect():
     tile_rect = DARK_WALL.get_rect()
     LIGHT_WALL = pygame.image.load("images/LIGHT_WALL.png").convert_alpha() # (126, 206, 46, 255)
     CARPET = pygame.image.load("images/CARPET.png").convert_alpha() # (14,64,14,255)
-    DOOR = pygame.image.load("images/DOOR.png").convert_alpha() # (117,94,21,255)
+    RIGHT_DOOR = pygame.image.load("images/RIGHT_DOOR.png").convert_alpha() # (117,94,21,255)
+    LEFT_DOOR = pygame.image.load("images/LEFT_DOOR.png").convert_alpha() # (117,94,21,255)
     DARK_GRASS = pygame.image.load("images/DARK_GRASS.png").convert_alpha() # (0, 176, 255, 255)
     LIGHT_GRASS = pygame.image.load("images/LIGHT_GRASS.png").convert_alpha() # (39, 39, 21, 255)
 
