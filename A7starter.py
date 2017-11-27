@@ -117,8 +117,8 @@ def main():
 
     # When we have moved across a portion of a tile, an extra tile is visible
     # on the edge. Always draw an extra tile to fill in the space.
-    map_tile_width += 1
-    map_tile_height += 1
+    map_tile_width += 3
+    map_tile_height += 3
     
     # Get a font
     myfont = pygame.font.SysFont("monospace", 24)
