@@ -49,6 +49,7 @@ def load_tiles_and_make_dict_and_rect():
     RIGHT_WINDOW_OPEN = pygame.image.load("images/RIGHT_WINDOW_OPEN.png").convert_alpha() # (39, 39, 21, 255)
     LEFT_WINDOW_OPEN = pygame.image.load("images/LEFT_WINDOW_OPEN.png").convert_alpha() # (39, 39, 21, 255)
     WATER = pygame.image.load("images/WATER.png").convert_alpha() # (39, 39, 21, 255)
+    DOOR_HANDLE = pygame.image.load("images/DOOR_HANDLE.png").convert_alpha() # (39, 39, 21, 255)
 
     # The previous entries are associated with the minmap that came with this file. When you make ur
     # own minimap you have to reassign these colors.
@@ -68,6 +69,7 @@ def load_tiles_and_make_dict_and_rect():
     tiles[(65, 45, 11, 255)] = LEFT_WINDOW_CLOSED
     tiles[(103, 85, 55, 255)] = RIGHT_WINDOW_OPEN
     tiles[(65, 45, 11, 255)] = LEFT_WINDOW_OPEN
+    tiles[(166, 154,  48, 255)] = DOOR_HANDLE
 
     return (tiles, tile_rect)
 
