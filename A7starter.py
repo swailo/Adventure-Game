@@ -1,3 +1,4 @@
+#Isabella Ruiz + Jai 
 # Starter code for an adventure type game.
 # University of Utah, David Johnson, 2017.
 # This code, or code derived from this code, may not be shared without permission.
@@ -11,6 +12,26 @@ RECT = 1
 POSITION = 2
 VISIBLE = 3
 PHRASE = 4
+
+
+# Draw characters
+def draw_characters( character_dict, screen, screen_x, screen_y, frame_count):
+    # The mouser moves across the map by adding 1 to the x coordinate. Since POSITION is a tuple, we
+    # cannot modify just the x coordinate, we need to rebuild the tuple.
+##        character_data["mouser"][POSITION] = (character_data["mouser"][POSITION][0] + 1, character_data["mouser"][POSITION][1])
+    # The mouser rectangle has to be shifted from the big map to the screen by offsetting by the screen corner.
+    # This shifted rectangle is also how the catto might interact with the mouser since we care about
+    # where they are on screen relative to each other.
+
+    for dic in list(character_dict.values()):
+        dic[RECT].center = (dic[POSITION][0] - screen_x, dic[POSITION][1] - screen_y)
+        sprite = dic[IMAGE][frame_count%len(dic[IMAGE])]
+        if dic[VISIBLE]:
+            screen.blit(sprite, dic[RECT])    
+
+
+
+
 
 # This function loads a series of sprite images stored in a folder with a
 # consistent naming pattern: sprite_# or sprite_##. It returns a list of the images.
@@ -50,6 +71,11 @@ def load_tiles_and_make_dict_and_rect():
     LEFT_WINDOW_OPEN = pygame.image.load("images/LEFT_WINDOW_OPEN.png").convert_alpha() # (39, 39, 21, 255)
     WATER = pygame.image.load("images/WATER.png").convert_alpha() # (39, 39, 21, 255)
     DOOR_HANDLE = pygame.image.load("images/DOOR_HANDLE.png").convert_alpha() # (39, 39, 21, 255)
+    OPEN = pygame.image.load("images/OPEN.png").convert_alpha()
+    THING = pygame.image.load("images/THING.png").convert_alpha()
+    THING2 = pygame.image.load("images/THING2.png").convert_alpha()
+    WHITE = pygame.image.load("images/WHITE.png").convert_alpha()
+    BLUE = pygame.image.load("images/BLUE.png").convert_alpha()
 
     # The previous entries are associated with the minmap that came with this file. When you make ur
     # own minimap you have to reassign these colors.
@@ -70,6 +96,11 @@ def load_tiles_and_make_dict_and_rect():
     tiles[(103, 85, 55, 255)] = RIGHT_WINDOW_OPEN
     tiles[(65, 45, 11, 255)] = LEFT_WINDOW_OPEN
     tiles[(166, 154,  48, 255)] = DOOR_HANDLE
+    tiles[(52, 52,  52, 255)] = OPEN
+    tiles[(24, 44,  150, 255)] = THING
+    tiles[(127, 127, 127, 255)] = THING2
+    tiles[(255, 255, 255, 255)] = WHITE
+    tiles[(0, 162,  232, 255)] = BLUE
 
     return (tiles, tile_rect)
 
@@ -122,6 +153,7 @@ def main():
     map_tile_width += 3
     map_tile_height += 3
     
+    
     # Get a font
     myfont = pygame.font.SysFont("monospace", 24)
 
@@ -134,9 +166,10 @@ def main():
 
     # Put all the characters in a dictionary so we can pass to functions easily
     character_data = {}
+    
     # add in a mouser character
-    mouser_image = pygame.image.load("images/mouser/sprite_mouser0.png").convert_alpha()
-    mouser_rect = mouser_image.get_rect()
+    mouser_image = load_piskell_sprite("images/mouser",2)
+    mouser_rect = mouser_image[0].get_rect()
     mouser_pos = (1700,1200)
     # This is our standard character data - it is a dictionary of
     # an {IMAGE, RECT, POSITION, VISIBLE, optional PHRASE}. The ALL CAPS keys are defined at
@@ -148,9 +181,18 @@ def main():
     character_data["mouser"] = mouser
 
     # add in a crown item
-    crown_image = pygame.image.load("images/sprite_crown0.png").convert_alpha()
+    crown_image = load_piskell_sprite("images/crown",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["crown"] = {IMAGE:crown_image, RECT:crown_image.get_rect(), POSITION:(1000, 500), VISIBLE:False, PHRASE:"Spend your coin wisely!"}
+    character_data["crown"] = {IMAGE:crown_image, RECT:crown_image[0].get_rect(), POSITION:(1600, 1200), VISIBLE:True, PHRASE:"Spend your coin wisely!"}
+
+    king_image = load_piskell_sprite("images/king",2)
+    # Note that we can add characters to the character dictionary without making a lot of variables
+    character_data["king"] = {IMAGE:king_image, RECT:king_image[0].get_rect(), POSITION:(1300, 1200), VISIBLE:True, PHRASE:"Spend your coin wisely!"}
+
+    merchant_image = load_piskell_sprite("images/merchant",2)
+    # Note that we can add characters to the character dictionary without making a lot of variables
+    character_data["merchant"] = {IMAGE:merchant_image, RECT:merchant_image[0].get_rect(), POSITION:(1400, 1200), VISIBLE:True, PHRASE:"Spend your coin wisely!"}
+
 
     # Add a place to hold screen phrases
     say_phrases = []
@@ -231,22 +273,14 @@ def main():
                 screen.blit(tiles[tuple(pixelColor)], tile_rect)
 
         # Draw items. They move with the map.
+        draw_characters(character_data, screen, screen_x, screen_y, frame_count)
 
-        # The mouser moves across the map by adding 1 to the x coordinate. Since POSITION is a tuple, we
-        # cannot modify just the x coordinate, we need to rebuild the tuple.
-        character_data["mouser"][POSITION] = (character_data["mouser"][POSITION][0] + 1, character_data["mouser"][POSITION][1])
-        # The mouser rectangle has to be shifted from the big map to the screen by offsetting by the screen corner.
-        # This shifted rectangle is also how the catto might interact with the mouser since we care about
-        # where they are on screen relative to each other.
-        character_data["mouser"][RECT].center = (character_data["mouser"][POSITION][0] - screen_x, character_data["mouser"][POSITION][1] - screen_y)
-        if character_data["mouser"][VISIBLE]:
-            screen.blit(character_data["mouser"][IMAGE], character_data["mouser"][RECT])
+        
 
         # interact with mouser
         if character_data["mouser"][VISIBLE] and catto_rect.colliderect(character_data["mouser"][RECT]):
-            character_data["mouser"][VISIBLE] = False;
-            say_phrases.append((character_data["mouser"][PHRASE], frame_count + 150))
-            game_state["got mouser"] = True # Not really used in the starter code
+            playing = False;
+            
             
         # The catto stays in the center of the screen
         catto_sprite = catto[frame_count%len(catto)]
@@ -267,7 +301,7 @@ def main():
         frame_count += 1
 
         # 60 fps
-        clock.tick(60)
+        clock.tick(30)
 
     # loop is over    
     pygame.quit()
