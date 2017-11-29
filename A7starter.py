@@ -236,7 +236,7 @@ def main():
                 playing = False
 
         # Set the speed of the catto, which is the speed the screen corner moves.
-        speed = 15
+        speed = 20
 
         # Allow continuous motion on a held-down key
         keys = pygame.key.get_pressed()
