@@ -170,28 +170,28 @@ def main():
     # add in a mouser character
     mouser_image = load_piskell_sprite("images/mouser",2)
     mouser_rect = mouser_image[0].get_rect()
-    mouser_pos = (1700,1200)
+    mouser_pos = (10000,3700)
     # This is our standard character data - it is a dictionary of
     # an {IMAGE, RECT, POSITION, VISIBLE, optional PHRASE}. The ALL CAPS keys are defined at
     # the top of this file. They are really numbers. Words make more sense to read but I get
     # frustrated having to put quotes around the words. So the variables act as the word and the
     # value in the variable acts as the key.
-    mouser = {IMAGE:mouser_image, RECT:mouser_rect, POSITION:mouser_pos, VISIBLE:True, PHRASE:"You got me!"}
+    mouser = {IMAGE:mouser_image, RECT:mouser_rect, POSITION:mouser_pos, VISIBLE:True, PHRASE:"I KILLE YOU"}
     # Add the mouser list to the character dictionary.    
     character_data["mouser"] = mouser
 
     # add in a crown item
     crown_image = load_piskell_sprite("images/crown",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["crown"] = {IMAGE:crown_image, RECT:crown_image[0].get_rect(), POSITION:(1600, 1200), VISIBLE:True, PHRASE:"Spend your coin wisely!"}
+    character_data["crown"] = {IMAGE:crown_image, RECT:crown_image[0].get_rect(), POSITION:(3900, 3800), VISIBLE:True, PHRASE:"SHINY SHINY"}
 
     king_image = load_piskell_sprite("images/king",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["king"] = {IMAGE:king_image, RECT:king_image[0].get_rect(), POSITION:(1300, 1200), VISIBLE:True, PHRASE:"Spend your coin wisely!"}
+    character_data["king"] = {IMAGE:king_image, RECT:king_image[0].get_rect(), POSITION:(3700, 3700), VISIBLE:True, PHRASE:"THIEF! NO!"}
 
     merchant_image = load_piskell_sprite("images/merchant",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["merchant"] = {IMAGE:merchant_image, RECT:merchant_image[0].get_rect(), POSITION:(1400, 1200), VISIBLE:True, PHRASE:"Spend your coin wisely!"}
+    character_data["merchant"] = {IMAGE:merchant_image, RECT:merchant_image[0].get_rect(), POSITION:(3700, 1800), VISIBLE:True, PHRASE:"Good Luck with the Rope, nonsuspisous cat!"}
 
 
     # Add a place to hold screen phrases
