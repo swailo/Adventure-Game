@@ -13,7 +13,15 @@ POSITION = 2
 VISIBLE = 3
 PHRASE = 4
 
-
+#speed from terrain
+def speed_from_terrain(catto_rect, world, screen_x, screen_y, tile_size):
+    slower = world.get_at(map_position_to_minimap_index)
+    if slower == ("CARPET"):
+        speed = 5
+    else:
+        speed = 20
+    
+ 
 # Draw characters
 def draw_characters( character_dict, screen, screen_x, screen_y, frame_count):
     # The mouser moves across the map by adding 1 to the x coordinate. Since POSITION is a tuple, we
@@ -104,6 +112,7 @@ def load_tiles_and_make_dict_and_rect():
 
     return (tiles, tile_rect)
 
+
 # Clamp the value parameter to be on the range from min_allowed to max_allowed.
 # The clamped value is returned, while the original value is not changed.
 def clamp(min_allowed, value, max_allowed):
@@ -183,11 +192,11 @@ def main():
     # add in a crown item
     crown_image = load_piskell_sprite("images/crown",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["crown"] = {IMAGE:crown_image, RECT:crown_image[0].get_rect(), POSITION:(3900, 3800), VISIBLE:True, PHRASE:"SHINY SHINY"}
+    character_data["crown"] = {IMAGE:crown_image, RECT:crown_image[0].get_rect(), POSITION:(3900, 3800), VISIBLE:True, PHRASE:"STOP THIEF"}
 
     king_image = load_piskell_sprite("images/king",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["king"] = {IMAGE:king_image, RECT:king_image[0].get_rect(), POSITION:(3700, 3700), VISIBLE:True, PHRASE:"THIEF! NO!"}
+    character_data["king"] = {IMAGE:king_image, RECT:king_image[0].get_rect(), POSITION:(3700, 3700), VISIBLE:True, PHRASE:"FUCK! BLUB BLURB *DEATH*"}
 
     merchant_image = load_piskell_sprite("images/merchant",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
@@ -213,11 +222,16 @@ def main():
     game_state = {}
     
     # Need to set all state variables here so that they are in the dictionary
-    game_state["got mouser"] = False
+    game_state["got merchant"] = False
+    game_state["got king"] = False
+    game_state["got crown"] = False
+    
 
     # Load the minimap that defines the world.
     world = pygame.image.load("images/testMap2.png").convert_alpha()
     world_rect = world.get_rect()
+    world2 = pygame.image.load("images/testMap1.png").convert_alpha()
+    world2_rect = world.get_rect()
 
     # Define where the catto is positioned on the big map
     screen_x, screen_y = (1200,1200)
@@ -225,6 +239,21 @@ def main():
     # Get the tiles that define different terrain types
     tiles, tile_rect = load_tiles_and_make_dict_and_rect()
 
+    Level = world
+
+
+##    #pulls out color
+##    hit_box = screen.get_at(pygame.key.get_pressed())
+
+
+####    #Interaction with enviornment
+####    if hit_box == ("DARK_WALL") or hit_box == ("LIGHT_WALL") or hit_box == ("WATER"):
+####    if hit_box == ("RIGHT_WINDOW_CLOSED") or hit_box == ("LEFT_WINDOW_CLOSED"):
+##            if game_state["got merchant"]= True
+##                level = world2
+##            else:
+                
+    
     # Loop while the player is still active
     while playing:
         # start the next frame
@@ -257,8 +286,7 @@ def main():
 
         # scale down from position on the big map to pixel on the minimap
         minimap_offset_x, minimap_offset_y =  map_position_to_minimap_index( (screen_x, screen_y), tile_size)
-        
-        # Draw the map
+                # Draw the map
         for y in range(0,map_tile_height):
             # offset y
             y_index = y + minimap_offset_y
@@ -275,13 +303,30 @@ def main():
         # Draw items. They move with the map.
         draw_characters(character_data, screen, screen_x, screen_y, frame_count)
 
+        #speed terrain
+        speed_from_terrain(catto_rect, world, screen_x, screen_y, tile_size)
+
+        # Character interacting with enviornment
+        
         
 
         # interact with mouser
         if character_data["mouser"][VISIBLE] and catto_rect.colliderect(character_data["mouser"][RECT]):
             playing = False;
+        if character_data["merchant"][VISIBLE] and catto_rect.colliderect(character_data["merchant"][RECT]): 
+            character_data ["merchant"][VISIBLE] = False;
+            say_phrases.append((character_data['merchant'][PHRASE], frame_count + 150))
+            game_state["got merchant"] = True
+        if character_data["king"][VISIBLE] and catto_rect.colliderect(character_data["king"][RECT]): 
+            character_data ["king"][VISIBLE] = False;
+            say_phrases.append((character_data['king'][PHRASE], frame_count + 150))
+            game_state["got king"] = True
+        if character_data["crown"][VISIBLE] and catto_rect.colliderect(character_data["crown"][RECT]): 
+            character_data ["crown"][VISIBLE] = False;
+            say_phrases.append((character_data['crown'][PHRASE], frame_count + 150))
+            game_state["got crown"] = True
             
-            
+        
         # The catto stays in the center of the screen
         catto_sprite = catto[frame_count%len(catto)]
         if is_facing_right:
