@@ -12,14 +12,6 @@ RECT = 1
 POSITION = 2
 VISIBLE = 3
 PHRASE = 4
-
-#speed from terrain
-def speed_from_terrain(catto_rect, world, screen_x, screen_y, tile_size):
-    slower = world.get_at(map_position_to_minimap_index)
-    if slower == ("CARPET"):
-        speed = 5
-    else:
-        speed = 20
     
  
 # Draw characters
@@ -133,6 +125,14 @@ def pixel_collision( sprite, sprite_rect, image, color):
 # Take an x,y pos on the map and return a (x_index, y_index) tuple that says which pixel index they would be over
 def map_position_to_minimap_index( pos, tile_size ):
     return (int(pos[0]/tile_size), int(pos[1]/tile_size))
+
+#speed from terrain
+def speed_from_terrain(catto_rect, world, screen_x, screen_y, tile_size):
+    slower = world.get_at(screen_x/tile_size,screen_y/tile_size)
+    if slower == ("CARPET"):
+        speed = 5
+    else:
+        speed = 20
 
 # Simple way of getting some character phrases on the screen. The go away when the frame count is higher than
 # the phrase's count. say_phrases is a list of the form [("phrase", cutoff_frame_count)]
