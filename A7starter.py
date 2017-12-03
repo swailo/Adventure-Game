@@ -29,7 +29,14 @@ def draw_characters( character_dict, screen, screen_x, screen_y, frame_count):
         if dic[VISIBLE]:
             screen.blit(sprite, dic[RECT])    
 
-
+def can_catto_move(x, y, world, tile_size):
+    screen_coord = [x, y]
+    mini_coordinates = map_position_to_minimap_index(screen_coord,tile_size)
+    color = world.get_at((mini_coordinates[0],mini_coordinates[1]))
+    if color == (127, 127, 127, 255) or color == (93, 93, 93, 255) or color == (159, 157, 157, 255):
+        return False
+    else:
+        return True
 
 
 
@@ -128,11 +135,18 @@ def map_position_to_minimap_index( pos, tile_size ):
 
 #speed from terrain
 def speed_from_terrain(catto_rect, world, screen_x, screen_y, tile_size):
-    slower = world.get_at(screen_x/tile_size,screen_y/tile_size)
-    if slower == ("CARPET"):
-        speed = 5
+    screen_coord = [screen_x, screen_y]
+    mini_coordinates = map_position_to_minimap_index(screen_coord,tile_size)
+    color = world.get_at((mini_coordinates[0],mini_coordinates[1]))
+
+    
+    #print(mini_coordinates)
+    print(color)
+
+    if color == (25, 44, 155, 255) or color == (24, 44,  150, 255):
+        return 5
     else:
-        speed = 20
+        return 20
 
 # Simple way of getting some character phrases on the screen. The go away when the frame count is higher than
 # the phrase's count. say_phrases is a list of the form [("phrase", cutoff_frame_count)]
@@ -146,6 +160,7 @@ def render_phrases( say_phrases, frame_count, screen, myfont):
 
 # The main loop handles most of the game    
 def main():
+
 
     # Initialize pygame                                 
     pygame.init()
@@ -230,8 +245,8 @@ def main():
     # Load the minimap that defines the world.
     world = pygame.image.load("images/testMap2.png").convert_alpha()
     world_rect = world.get_rect()
-    world2 = pygame.image.load("images/testMap1.png").convert_alpha()
-    world2_rect = world.get_rect()
+##    world2 = pygame.image.load("images/testMap1.png").convert_alpha()
+##    world2_rect = world.get_rect()
 
     # Define where the catto is positioned on the big map
     screen_x, screen_y = (1200,1200)
@@ -264,33 +279,47 @@ def main():
             if event.type == pygame.QUIT:
                 playing = False
 
-        # Set the speed of the catto, which is the speed the screen corner moves.
-        speed = 20
 
-        # Allow continuous motion on a held-down key
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            is_facing_right = False
-            screen_x += -speed
-        if keys[pygame.K_RIGHT]:
-            is_facing_right = True
-            screen_x += speed
-        if keys[pygame.K_UP]:
-            screen_y += -speed
-        if keys[pygame.K_DOWN]:
-            screen_y += speed
 
         # Clamp the screen offsets to allowable values
         screen_x = clamp(0, screen_x, ((world.get_width() - 1) - (map_tile_width - 1)) * tile_size + tile_size-1)
         screen_y = clamp(0, screen_y, ((world.get_height() - 1) - (map_tile_height - 1)) * tile_size + tile_size-1)
 
+        print(screen_x)
+        print(screen_y)
+
+        x = screen_x + catto_rect.center[0]
+        y = screen_y + catto_rect.center[1]
+
+        #speed terrain
+        speed = speed_from_terrain(catto_rect, world, x, y, tile_size)
+      
+
+        # Allow continuous motion on a held-down key
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            is_facing_right = False
+            if can_catto_move(x - 20, y, world, tile_size):
+                screen_x += -speed
+        if keys[pygame.K_RIGHT]:
+            is_facing_right = True
+            if can_catto_move(x + 20, y, world, tile_size):
+                screen_x += speed
+        if keys[pygame.K_UP]:
+            if can_catto_move(x, y - 20, world, tile_size):
+                screen_y += -speed
+        if keys[pygame.K_DOWN]:
+            if can_catto_move(x, y + 20, world, tile_size):
+                screen_y += speed
+
+
         # scale down from position on the big map to pixel on the minimap
         minimap_offset_x, minimap_offset_y =  map_position_to_minimap_index( (screen_x, screen_y), tile_size)
                 # Draw the map
-        for y in range(0,map_tile_height):
+        for y in range(0,map_tile_height-1):
             # offset y
             y_index = y + minimap_offset_y
-            for x in range(0, map_tile_width):
+            for x in range(0, map_tile_width-1):
                 # offset x
                 x_index = x + minimap_offset_x
                 pixelColor = world.get_at((x_index,y_index))
@@ -303,8 +332,6 @@ def main():
         # Draw items. They move with the map.
         draw_characters(character_data, screen, screen_x, screen_y, frame_count)
 
-        #speed terrain
-        speed_from_terrain(catto_rect, world, screen_x, screen_y, tile_size)
 
         # Character interacting with enviornment
         
