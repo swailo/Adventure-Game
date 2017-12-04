@@ -1,3 +1,4 @@
+
 #Isabella Ruiz + Jai 
 # Starter code for an adventure type game.
 # University of Utah, David Johnson, 2017.
@@ -12,13 +13,23 @@ RECT = 1
 POSITION = 2
 VISIBLE = 3
 PHRASE = 4
-    
+
+def bounce_rect_between_two_positions( rect, start_pos, end_pos, num_frame, frame_count ):
+    if frame_count%num_frame < num_frame/2:
+        new_pos_x = start_pos[0] + (end_pos[0] - start_pos[0]) * (frame_count%(num_frame/2))/(num_frame/2)
+        new_pos_y = start_pos[1] + (end_pos[1] - start_pos[1]) * (frame_count%(num_frame/2))/(num_frame/2)
+    else:
+        new_pos_x = end_pos[0] + (start_pos[0] - end_pos[0]) * (frame_count%(num_frame/2))/(num_frame/2)
+        new_pos_y = end_pos[1] + (start_pos[1] - end_pos[1]) * (frame_count%(num_frame/2))/(num_frame/2)
+
+    rect.center = (new_pos_x, new_pos_y)
+
  
 # Draw characters
 def draw_characters( character_dict, screen, screen_x, screen_y, frame_count):
     # The mouser moves across the map by adding 1 to the x coordinate. Since POSITION is a tuple, we
     # cannot modify just the x coordinate, we need to rebuild the tuple.
-##        character_data["mouser"][POSITION] = (character_data["mouser"][POSITION][0] + 1, character_data["mouser"][POSITION][1])
+#       character_data["mouser"][POSITION] = (character_data["mouser"][POSITION][0] + 1, character_data["mouser"][POSITION][1])
     # The mouser rectangle has to be shifted from the big map to the screen by offsetting by the screen corner.
     # This shifted rectangle is also how the catto might interact with the mouser since we care about
     # where they are on screen relative to each other.
@@ -34,6 +45,15 @@ def can_catto_move(x, y, world, tile_size):
     mini_coordinates = map_position_to_minimap_index(screen_coord,tile_size)
     color = world.get_at((mini_coordinates[0],mini_coordinates[1]))
     if color == (127, 127, 127, 255) or color == (93, 93, 93, 255) or color == (159, 157, 157, 255):
+        return False
+    else:
+        return True
+
+def door_work(x, y, world, tile_size):
+    screen_coord = [x, y]
+    mini_coordinates = map_position_to_minimap_index(screen_coord,tile_size)
+    color = world.get_at((mini_coordinates[0],mini_coordinates[1]))
+    if color == (103, 85, 55, 255) or color == (65, 45, 11, 255):
         return False
     else:
         return True
@@ -138,15 +158,13 @@ def speed_from_terrain(catto_rect, world, screen_x, screen_y, tile_size):
     screen_coord = [screen_x, screen_y]
     mini_coordinates = map_position_to_minimap_index(screen_coord,tile_size)
     color = world.get_at((mini_coordinates[0],mini_coordinates[1]))
-
-    
-    #print(mini_coordinates)
-    print(color)
+    print(mini_coordinates)
+    #print(color)
 
     if color == (25, 44, 155, 255) or color == (24, 44,  150, 255):
-        return 5
+        return 150
     else:
-        return 20
+        return 30
 
 # Simple way of getting some character phrases on the screen. The go away when the frame count is higher than
 # the phrase's count. say_phrases is a list of the form [("phrase", cutoff_frame_count)]
@@ -192,18 +210,85 @@ def main():
     character_data = {}
     
     # add in a mouser character
-    mouser_image = load_piskell_sprite("images/mouser",2)
-    mouser_rect = mouser_image[0].get_rect()
-    mouser_pos = (10000,3700)
-    # This is our standard character data - it is a dictionary of
-    # an {IMAGE, RECT, POSITION, VISIBLE, optional PHRASE}. The ALL CAPS keys are defined at
-    # the top of this file. They are really numbers. Words make more sense to read but I get
-    # frustrated having to put quotes around the words. So the variables act as the word and the
-    # value in the variable acts as the key.
-    mouser = {IMAGE:mouser_image, RECT:mouser_rect, POSITION:mouser_pos, VISIBLE:True, PHRASE:"I KILLE YOU"}
-    # Add the mouser list to the character dictionary.    
-    character_data["mouser"] = mouser
+    mouser_image1 = load_piskell_sprite("images/mouser",2)
+    mouser_rect1 = mouser_image1[0].get_rect()
+    mouser_pos1 = (9000,3400)
+    mouser1 = {IMAGE:mouser_image1, RECT:mouser_rect1, POSITION:mouser_pos1, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser1"] = mouser1
 
+    mouser_image2 = load_piskell_sprite("images/mouser",2)
+    mouser_rect2 = mouser_image2[0].get_rect()
+    mouser_pos2 = (10800,4200)
+    mouser2 = {IMAGE:mouser_image2, RECT:mouser_rect2, POSITION:mouser_pos2, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser2"] = mouser2
+
+    mouser_image3 = load_piskell_sprite("images/mouser",2)
+    mouser_rect3 = mouser_image3[0].get_rect()
+    mouser_pos3 = (10800,3400)
+    mouser3 = {IMAGE:mouser_image3, RECT:mouser_rect3, POSITION:mouser_pos3, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser3"] = mouser3
+
+    mouser_image4 = load_piskell_sprite("images/mouser",2)
+    mouser_rect4 = mouser_image4[0].get_rect()
+    mouser_pos4 = (10000,2800)
+    mouser4= {IMAGE:mouser_image4, RECT:mouser_rect4, POSITION:mouser_pos4, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser4"] = mouser4
+
+
+    mouser_image5 = load_piskell_sprite("images/mouser",2)
+    mouser_rect5 = mouser_image5[0].get_rect()
+    mouser_pos5 = (10000,4500)
+    mouser5 = {IMAGE:mouser_image5, RECT:mouser_rect5, POSITION:mouser_pos5, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser5"] = mouser5
+
+    mouser_image6 = load_piskell_sprite("images/mouser",2)
+    mouser_rect6 = mouser_image6[0].get_rect()
+    mouser_pos6 = (10000,3700)
+    mouser6 = {IMAGE:mouser_image6, RECT:mouser_rect6, POSITION:mouser_pos6, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser6"] = mouser6
+
+    mouser_image7 = load_piskell_sprite("images/mouser",2)
+    mouser_rect7 = mouser_image7[0].get_rect()
+    mouser_pos7 = (9000,4500)
+    mouser7 = {IMAGE:mouser_image7, RECT:mouser_rect7, POSITION:mouser_pos7, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser7"] = mouser7
+
+    mouser_image8 = load_piskell_sprite("images/mouser",2)
+    mouser_rect8 = mouser_image8[0].get_rect()
+    mouser_pos8 = (6000,3400)
+    mouser8 = {IMAGE:mouser_image8, RECT:mouser_rect8, POSITION:mouser_pos8, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser8"] = mouser8
+
+    mouser_image9 = load_piskell_sprite("images/mouser",2)
+    mouser_rect9 = mouser_image9[0].get_rect()
+    mouser_pos9 = (7000,3900)
+    mouser9 = {IMAGE:mouser_image9, RECT:mouser_rect9, POSITION:mouser_pos9, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser9"] = mouser9
+
+    mouser_image10 = load_piskell_sprite("images/mouser",2)
+    mouser_rect10 = mouser_image10[0].get_rect()
+    mouser_pos10 = (8000,4420)
+    mouser10 = {IMAGE:mouser_image10, RECT:mouser_rect10, POSITION:mouser_pos10, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser10"] = mouser10
+
+    mouser_image11 = load_piskell_sprite("images/mouser",2)
+    mouser_rect11 = mouser_image11[0].get_rect()
+    mouser_pos11 = (8000,4000)
+    mouser11 = {IMAGE:mouser_image11, RECT:mouser_rect11, POSITION:mouser_pos11, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser11"] = mouser11
+
+    mouser_image12 = load_piskell_sprite("images/mouser",2)
+    mouser_rect12 = mouser_image12[0].get_rect()
+    mouser_pos12 = (7000,3000)
+    mouser12 = {IMAGE:mouser_image12, RECT:mouser_rect12, POSITION:mouser_pos12, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser12"] = mouser12
+
+    mouser_image13 = load_piskell_sprite("images/mouser",2)
+    mouser_rect13 = mouser_image13[0].get_rect()
+    mouser_pos13 = (7000, 4700)
+    mouser13 = {IMAGE:mouser_image13, RECT:mouser_rect13, POSITION:mouser_pos13, VISIBLE:True, PHRASE:"I KILLE YOU"}  
+    character_data["mouser13"] = mouser13
+    
     # add in a crown item
     crown_image = load_piskell_sprite("images/crown",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
@@ -211,11 +296,11 @@ def main():
 
     king_image = load_piskell_sprite("images/king",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["king"] = {IMAGE:king_image, RECT:king_image[0].get_rect(), POSITION:(3700, 3700), VISIBLE:True, PHRASE:"FUCK! BLUB BLURB *DEATH*"}
+    character_data["king"] = {IMAGE:king_image, RECT:king_image[0].get_rect(), POSITION:(5295,3210), VISIBLE:False, PHRASE:"FUCK! BLUB BLURB *DEATH*"}
 
     merchant_image = load_piskell_sprite("images/merchant",2)
     # Note that we can add characters to the character dictionary without making a lot of variables
-    character_data["merchant"] = {IMAGE:merchant_image, RECT:merchant_image[0].get_rect(), POSITION:(3700, 1800), VISIBLE:True, PHRASE:"Good Luck with the Rope, nonsuspisous cat!"}
+    character_data["merchant"] = {IMAGE:merchant_image, RECT:merchant_image[0].get_rect(), POSITION:(11450, 1620), VISIBLE:True, PHRASE:"Good Luck with the Rope, nonsuspisous cat!"}
 
 
     # Add a place to hold screen phrases
@@ -245,30 +330,23 @@ def main():
     # Load the minimap that defines the world.
     world = pygame.image.load("images/testMap2.png").convert_alpha()
     world_rect = world.get_rect()
-##    world2 = pygame.image.load("images/testMap1.png").convert_alpha()
-##    world2_rect = world.get_rect()
+    world2 = pygame.image.load("images/testMap1.png").convert_alpha()
+    world2_rect = world2.get_rect()
+    gameover = pygame.image.load("images/GAME_OVER.png").convert_alpha()
+    gamover_rect = gameover.get_rect()
 
     # Define where the catto is positioned on the big map
-    screen_x, screen_y = (1200,1200)
+    screen_x, screen_y = (11895,1720)
 
     # Get the tiles that define different terrain types
     tiles, tile_rect = load_tiles_and_make_dict_and_rect()
 
     Level = world
 
-
-##    #pulls out color
-##    hit_box = screen.get_at(pygame.key.get_pressed())
-
-
-####    #Interaction with enviornment
-####    if hit_box == ("DARK_WALL") or hit_box == ("LIGHT_WALL") or hit_box == ("WATER"):
-####    if hit_box == ("RIGHT_WINDOW_CLOSED") or hit_box == ("LEFT_WINDOW_CLOSED"):
-##            if game_state["got merchant"]= True
-##                level = world2
-##            else:
-                
-    
+    #character Import
+    mouse = load_piskell_sprite("images/mouser", 2)
+    mouse_rect = mouse[0].get_rect()
+   
     # Loop while the player is still active
     while playing:
         # start the next frame
@@ -293,24 +371,43 @@ def main():
 
         #speed terrain
         speed = speed_from_terrain(catto_rect, world, x, y, tile_size)
-      
+
+        #Door Function
+
 
         # Allow continuous motion on a held-down key
+        
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             is_facing_right = False
-            if can_catto_move(x - 20, y, world, tile_size):
-                screen_x += -speed
+            if game_state["got merchant"] == True:
+                if can_catto_move(x - 20, y, world, tile_size):
+                    screen_x += -speed
+            else:
+                if can_catto_move(x - 20, y, world, tile_size) and door_work(x - 20, y, world, tile_size):
+                    screen_x += -speed
         if keys[pygame.K_RIGHT]:
             is_facing_right = True
-            if can_catto_move(x + 20, y, world, tile_size):
-                screen_x += speed
+            if game_state["got merchant"] == True:
+                if can_catto_move(x + 20, y, world, tile_size):
+                    screen_x += speed
+            else:
+                if can_catto_move(x + 20, y, world, tile_size) and door_work(x + 20, y, world, tile_size):
+                    screen_x += speed  
         if keys[pygame.K_UP]:
-            if can_catto_move(x, y - 20, world, tile_size):
-                screen_y += -speed
+            if game_state["got merchant"] == True:
+                if can_catto_move(x, y - 20, world, tile_size):
+                    screen_y += -speed
+            else:
+                if can_catto_move(x, y - 20, world, tile_size) and door_work(x, y - 20, world, tile_size):
+                    screen_y += -speed
         if keys[pygame.K_DOWN]:
-            if can_catto_move(x, y + 20, world, tile_size):
-                screen_y += speed
+            if game_state["got merchant"] == True:
+                if can_catto_move(x, y + 20, world, tile_size):
+                    screen_y += speed
+            else:
+                if can_catto_move(x, y + 20, world, tile_size) and door_work(x, y + 20, world, tile_size):
+                    screen_y += speed
 
 
         # scale down from position on the big map to pixel on the minimap
@@ -322,7 +419,7 @@ def main():
             for x in range(0, map_tile_width-1):
                 # offset x
                 x_index = x + minimap_offset_x
-                pixelColor = world.get_at((x_index,y_index))
+                pixelColor = Level.get_at((x_index,y_index))
                 # The tile is draw at the pixel location scaled up, then shifted by the partial tile amount.
                 tile_rect.topleft = (-(screen_x%tile_size) + x * tile_size, -(screen_y%tile_size) + y * tile_size)
                 # Colors in pygame are not really tuples but we can force it to be a tuple.
@@ -332,27 +429,57 @@ def main():
         # Draw items. They move with the map.
         draw_characters(character_data, screen, screen_x, screen_y, frame_count)
 
-
+        King_dead = False
         # Character interacting with enviornment
-        
-        
-
+        if game_state["got crown"] == True:
+            character_data["king"][VISIBLE] = True
+            
         # interact with mouser
-        if character_data["mouser"][VISIBLE] and catto_rect.colliderect(character_data["mouser"][RECT]):
+        if character_data["mouser1"][VISIBLE] and catto_rect.colliderect(character_data["mouser1"][RECT]):
             playing = False;
+        if character_data["mouser2"][VISIBLE] and catto_rect.colliderect(character_data["mouser2"][RECT]):
+            playing = False;
+        if character_data["mouser3"][VISIBLE] and catto_rect.colliderect(character_data["mouser3"][RECT]):
+            playing = False;
+        if character_data["mouser4"][VISIBLE] and catto_rect.colliderect(character_data["mouser4"][RECT]):
+            playing = False;
+        if character_data["mouser5"][VISIBLE] and catto_rect.colliderect(character_data["mouser5"][RECT]):
+            playing = False;
+        if character_data["mouser6"][VISIBLE] and catto_rect.colliderect(character_data["mouser6"][RECT]):
+            playing = False;
+        if character_data["mouser7"][VISIBLE] and catto_rect.colliderect(character_data["mouser7"][RECT]):
+            playing = False;
+        if character_data["mouser8"][VISIBLE] and catto_rect.colliderect(character_data["mouser8"][RECT]):
+            playing = False;
+        if character_data["mouser9"][VISIBLE] and catto_rect.colliderect(character_data["mouser9"][RECT]):
+            playing = False;
+        if character_data["mouser10"][VISIBLE] and catto_rect.colliderect(character_data["mouser10"][RECT]):
+            playing = False;
+        if character_data["mouser11"][VISIBLE] and catto_rect.colliderect(character_data["mouser11"][RECT]):
+            playing = False;
+        if character_data["mouser12"][VISIBLE] and catto_rect.colliderect(character_data["mouser12"][RECT]):
+            playing = False;
+        if character_data["mouser13"][VISIBLE] and catto_rect.colliderect(character_data["mouser13"][RECT]):
+            playing = False;
+            
         if character_data["merchant"][VISIBLE] and catto_rect.colliderect(character_data["merchant"][RECT]): 
             character_data ["merchant"][VISIBLE] = False;
             say_phrases.append((character_data['merchant'][PHRASE], frame_count + 150))
             game_state["got merchant"] = True
         if character_data["king"][VISIBLE] and catto_rect.colliderect(character_data["king"][RECT]): 
             character_data ["king"][VISIBLE] = False;
+            break
+            King_dead = True
             say_phrases.append((character_data['king'][PHRASE], frame_count + 150))
             game_state["got king"] = True
         if character_data["crown"][VISIBLE] and catto_rect.colliderect(character_data["crown"][RECT]): 
             character_data ["crown"][VISIBLE] = False;
             say_phrases.append((character_data['crown'][PHRASE], frame_count + 150))
             game_state["got crown"] = True
-            
+
+        #FIght me
+        if character_data["king"][VISIBLE] == False and King_dead == True:
+            print(gameover)
         
         # The catto stays in the center of the screen
         catto_sprite = catto[frame_count%len(catto)]

@@ -209,7 +209,7 @@ def main():
 
         # The ghost moves across the map by adding 1 to the x coordinate. Since POSITION is a tuple, we
         # cannot modify just the x coordinate, we need to rebuild the tuple.
-        character_data["ghost"][POSITION] = (character_data["ghost"][POSITION][0] + 1, character_data["ghost"][POSITION][1])
+        character_data["ghost"][POSITION] = (character_data["ghost"][POSITION][0] + 1, character_data["ghost"][POSITION][1]-1)
         # The ghost rectangle has to be shifted from the big map to the screen by offsetting by the screen corner.
         # This shifted rectangle is also how the hero might interact with the ghost since we care about
         # where they are on screen relative to each other.
